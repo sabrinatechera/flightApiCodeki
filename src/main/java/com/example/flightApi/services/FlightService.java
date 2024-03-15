@@ -14,4 +14,6 @@ public interface FlightService {
     void deleteById(Long id);
 
     Flight updateFlight(Flight flight);
+
+    List<Flight> finByOrigin(String origin);
 }

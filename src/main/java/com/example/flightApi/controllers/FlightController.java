@@ -46,4 +46,8 @@ public class FlightController {
         return flightService.updateFlight(flight);
     }
 
+    @GetMapping("locations")
+    public List<Flight>getByLocation(@RequestParam String origin){
+        return flightService.finByOrigin(origin);
+    }
 }
