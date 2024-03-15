@@ -18,9 +18,10 @@ public class FlightController {
         this.flightService = flightService;
     }
 
-    @GetMapping("")
+    @GetMapping("todos")
     public List<Flight> getAllFlights(){
-        return null;
+
+        return flightService.findAllFlights();
     }
 
     @PostMapping("/agregar")
@@ -30,7 +31,7 @@ public class FlightController {
 
     @GetMapping("/{id}")
     public Flight findFlightById(@PathVariable Long id){
-        return null;
+        return flightService.findById(id);
     }
 
     @DeleteMapping("/eliminar/{id}")
@@ -41,6 +42,7 @@ public class FlightController {
 
     @PutMapping("/actualizar")
     public Flight updateFlight(@RequestBody Flight flight){
+
         return flightService.updateFlight(flight);
     }
 
