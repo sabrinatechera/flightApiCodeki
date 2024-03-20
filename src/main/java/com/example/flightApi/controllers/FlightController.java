@@ -2,10 +2,10 @@ package com.example.flightApi.controllers;
 
 import com.example.flightApi.model.Flight;
 import com.example.flightApi.services.FlightService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/vuelos")
@@ -30,7 +30,7 @@ public class FlightController {
     }
 
     @GetMapping("/{id}")
-    public Flight findFlightById(@PathVariable Long id){
+    public Optional<Flight> findFlightById(@PathVariable Long id){
         return flightService.findById(id);
     }
 
@@ -40,14 +40,25 @@ public class FlightController {
         flightService.deleteById(id);
     }
 
-    @PutMapping("/actualizar")
-    public Flight updateFlight(@RequestBody Flight flight){
-
+    @PutMapping("actualizar")
+    public Optional<Flight> updateFlight(@RequestBody Flight flight){
         return flightService.updateFlight(flight);
     }
 
+
     @GetMapping("locations")
     public List<Flight>getByLocation(@RequestParam String origin){
-        return flightService.finByOrigin(origin);
+        return flightService.findByOrigin(origin);
     }
+
+    @GetMapping("ubi")
+    public List<Flight>getByLocationAndDestiny(@RequestParam String origin,@RequestParam String destination){
+        return flightService.findByOriginAndDestiny(origin,destination);
+    }
+
+    @GetMapping("/oferta")
+    public List<Flight> findByPrice(@RequestParam double price) {
+        return flightService.findByPrice(price);
+    }
+
 }

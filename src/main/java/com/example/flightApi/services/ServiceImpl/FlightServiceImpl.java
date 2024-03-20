@@ -5,7 +5,12 @@ import com.example.flightApi.repository.FlightRepository;
 import com.example.flightApi.services.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FlightServiceImpl implements FlightService {
@@ -23,25 +28,35 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Flight findById(Long id) {
-
-        return flightRepository.findById(id).orElse(null);
+    public Optional<Flight> findById(Long id) {
+        return flightRepository.findById(id);
     }
 
     @Override
-    public void deleteById(Long id) {
-
+    public void deleteById(@PathVariable  Long id) {
         flightRepository.deleteById(id);
-
     }
 
     @Override
-    public Flight updateFlight(Flight flight) {
+    public Optional<Flight> updateFlight(@RequestBody Flight flight) {
         flightRepository.save(flight);
-        return flightRepository.findById(flight.getId()).orElse(null);
+        return flightRepository.findById(flight.getId());
     }
     @Override
-    public List<Flight> finByOrigin(String origin){
+    public List<Flight> findByOrigin(String origin){
         return flightRepository.findByOrigin(origin);
+    }
+
+    @Override
+    public List<Flight> findByOriginAndDestiny(String origin, String destination){
+        return flightRepository.findByOriginAndDestination(origin,destination);
+    }
+
+    @Override
+    public List<Flight> findByPrice(double price){
+        List <Flight> allFlights= flightRepository.findAll();
+        return allFlights.stream()
+                .filter(flight -> flight.getPrice() <= price)
+                .collect(Collectors.toList());
     }
 }
